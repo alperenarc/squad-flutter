@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:squad/screens/managed_squads_screen/managed_squads.dart';
 
 import 'screens/authentication/authentication.dart';
 import 'screens/splash_screen/splash_screen.dart';
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
         '/': (ctx) => SplashScreen(),
         '/home': (ctx) => TabsScreen(),
         '/authentication': (ctx) => AuthenticationScreen(),
-        '/your_squads': (ctx) => YourSquads()
+        '/your_squads': (ctx) => YourSquads(),
+        '/managed_squads': (ctx) => ManagedSquads(),
       },
     );
   }

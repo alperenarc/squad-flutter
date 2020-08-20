@@ -89,7 +89,7 @@ class _HomeState extends State<Home> {
             closedBuilder: (context, action) => CategoryCard(
               size: size,
               title: "Ekiplerin",
-              icon: Icons.people,
+              icon: 'team',
               press: () {
                 Navigator.of(context).pushReplacementNamed("/your_squads");
               },
@@ -101,9 +101,11 @@ class _HomeState extends State<Home> {
             openElevation: 0,
             closedBuilder: (context, action) => CategoryCard(
               size: size,
-              title: "Bugün işin var mı ?",
-              icon: Icons.today,
-              press: () {},
+              title: "Yönetilen Ekipler",
+              icon: 'admin',
+              press: () {
+                Navigator.of(context).pushReplacementNamed("/managed_squads");
+              },
             ),
             openBuilder: (context, action) => YourSquads(),
           ),

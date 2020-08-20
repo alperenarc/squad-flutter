@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:squad/views/your_squads/your_squads_list_view_model.dart';
 import 'package:squad/widgets/loading.dart';
-import 'package:squad/widgets/squad_item.dart';
 import '../../constants.dart';
+import 'managed_squads_list_view_model.dart';
 
-class YourSquadsListView extends YourSquadsListViewModel {
+class ManagedSquadsListView extends ManagedSquadsListViewModel {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +19,7 @@ class YourSquadsListView extends YourSquadsListViewModel {
               },
             ),
             Text(
-              "Ekiplerin",
+              "Yönetilen Ekipler",
               style: Theme.of(context)
                   .textTheme
                   .headline6
@@ -33,13 +32,17 @@ class YourSquadsListView extends YourSquadsListViewModel {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          return await Future.delayed(Duration(seconds: 3));
+          return await Future.delayed(
+            Duration(seconds: 3),
+            () {},
+          );
         },
         child: ListView.builder(
-          itemCount: mySquads.length,
+          itemCount: managedSquadsRequests.length,
           itemBuilder: (BuildContext ctxt, int index) {
-            return mySquads.length != 0
-                ? SquadItem(mySquads: mySquads[index])
+            return managedSquadsRequests != [] ||managedSquadsRequests != null || managedSquadsRequests.length != 0
+                ? Text("managedSquadsRequests[index]['squadname']")
+                // SquadItem(mySquads: managedSquadsRequests[index])
                 : Loading();
           },
           padding: const EdgeInsets.all(8.0),

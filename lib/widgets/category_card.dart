@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../constants.dart';
 
-
 class CategoryCard extends StatelessWidget {
-  final IconData icon;
+  final String icon;
   final String title;
   final Function press;
   final Size size;
@@ -39,10 +39,15 @@ class CategoryCard extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Spacer(),
-                  Icon(
-                    icon,
-                    color: kActiveIconColor,
-                    size: 80.0,
+                  // Icon(
+                  //   icon,
+                  //   color: kActiveIconColor,
+                  //   size: 80.0,
+                  // ),
+                  Container(
+                    width:150,
+                    height:100,
+                    child: SvgPicture.asset("assets/illustrations/$icon.svg"),
                   ),
                   Spacer(),
                   Text(
@@ -51,7 +56,7 @@ class CategoryCard extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .headline6
-                        .copyWith(fontSize: 15,color:kTextColor),
+                        .copyWith(fontSize: 15, color: kTextColor),
                   )
                 ],
               ),
