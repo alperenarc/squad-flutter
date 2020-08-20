@@ -4,17 +4,24 @@ import 'package:squad/views/managed_squads/managed_squads_list.dart';
 
 abstract class ManagedSquadsListViewModel extends State<ManagedSquadsList> {
   var managedSquadsRequests = [];
-
+  
   @override
   void initState() {
     super.initState();
-    getMyManagedSquads().then((value) {
-      // Bad code Change it 
-      Future.delayed(const Duration(milliseconds: 1000), () {
-        setState(() {
-          managedSquadsRequests = managedSquadsRequestsFromFirebase;
-        });
+
+    getMyManagedSquadsList().then((value) {
+      setState(() {
+        managedSquadsRequests = [];
+        managedSquadsRequests = value;
       });
     });
+  }
+
+  void acceptUserRequest(userName, squadName) async {
+    await acceptUser(userName, squadName);
+  }
+
+  void declineUserRequest(userName, squadName) async {
+    await declineUser(userName, squadName);
   }
 }

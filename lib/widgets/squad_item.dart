@@ -12,6 +12,7 @@ class SquadItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      // ignore: missing_return
       onTap: () {
         if (mySquads.data['state']) {
           //Navigate Details Page

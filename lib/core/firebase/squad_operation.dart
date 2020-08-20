@@ -130,27 +130,92 @@ Future<bool> addSquadToUserDoc(squadID, squadName, state) async {
 // @route   getMyManagedSquads
 // @desc    fetches current user's managed squads requests
 // @access  Public
-Future<void> getMyManagedSquads() async {
-  managedSquadsRequestsFromFirebase = [];
-  var user = await getCurrentUserInfo();
 
+var managedSquads = [];
+
+Future<dynamic> getMyManagedSquads() async {
+  managedSquads = [];
+  var user = await getCurrentUserInfo();
   await squads
       .where("adminUid", isEqualTo: user.uid)
       .getDocuments()
       .then((querySnapshot) {
-    querySnapshot.documents.forEach((res) {
-      squads
-          .document(res.documentID)
-          .collection("members")
-          .where("isAccepted", isEqualTo: false)
-          .getDocuments()
-          .then((querySnapshot) {
-        querySnapshot.documents.forEach((result) {
-          managedSquadsRequestsFromFirebase.add(
-            {"squadName": res.data['name'], "userInfo": result.data},
-          );
-        });
+    querySnapshot.documents.forEach((res) async {
+      managedSquads.add(res);
+    });
+  });
+  return managedSquads;
+}
+
+var managedSquadsList = [];
+
+Future<dynamic> getMyManagedSquadsList() async {
+  managedSquadsList = [];
+  managedSquadsRequestsFromFirebase = [];
+  managedSquadsList = await getMyManagedSquads();
+  for (var item in managedSquadsList) {
+    await squads
+        .document(item.documentID)
+        .collection("members")
+        .where("isAccepted", isEqualTo: false)
+        .getDocuments()
+        .then((querySnapshot) {
+      querySnapshot.documents.forEach((result) {
+        managedSquadsRequestsFromFirebase.add(
+          {
+            "squadName": item.data['name'],
+            "userUid": result.documentID,
+            "userInfo": result.data,
+          },
+        );
       });
+    });
+  }
+
+  return managedSquadsRequestsFromFirebase;
+}
+
+Future<void> changeUserAcceptedState(squadUid, userUid, state) async {
+  await squads
+      .document(squadUid)
+      .collection('members')
+      .document(userUid)
+      .updateData({"isAccepted": state}).then((_) {
+    print("Operation succeeded!");
+  });
+}
+
+Future<void> deleteUserFromRequest(squadUid, userUid) async {
+  await squads
+      .document(squadUid)
+      .collection('members')
+      .document(userUid)
+      .delete()
+      .then((value) {
+    print('user deleted from request');
+  });
+}
+
+Future<void> acceptUser(userUid, squadName) async {
+  // önce squads tarafını true yap sonra user tarafını true yap
+
+  await squads
+      .where("name", isEqualTo: squadName)
+      .getDocuments()
+      .then((querySnapshot) {
+    querySnapshot.documents.forEach((result) async {
+      await changeUserAcceptedState(result.documentID, userUid, true);
+    });
+  });
+}
+
+Future<void> declineUser(userUid, squadName) async {
+  await squads
+      .where("name", isEqualTo: squadName)
+      .getDocuments()
+      .then((querySnapshot) {
+    querySnapshot.documents.forEach((result) async {
+      await deleteUserFromRequest(result.documentID, userUid);
     });
   });
 }

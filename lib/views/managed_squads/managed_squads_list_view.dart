@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:squad/widgets/loading.dart';
+import 'package:squad/widgets/managed_squad_item.dart';
 import '../../constants.dart';
 import 'managed_squads_list_view_model.dart';
 
 class ManagedSquadsListView extends ManagedSquadsListViewModel {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,9 +42,14 @@ class ManagedSquadsListView extends ManagedSquadsListViewModel {
         child: ListView.builder(
           itemCount: managedSquadsRequests.length,
           itemBuilder: (BuildContext ctxt, int index) {
-            return managedSquadsRequests != [] ||managedSquadsRequests != null || managedSquadsRequests.length != 0
-                ? Text("managedSquadsRequests[index]['squadname']")
-                // SquadItem(mySquads: managedSquadsRequests[index])
+            return managedSquadsRequests != [] ||
+                    managedSquadsRequests != null ||
+                    managedSquadsRequests.length != 0
+                ? ManagedSquadItem(
+                    myManagedSquads: managedSquadsRequests[index],
+                    accept: acceptUserRequest,
+                    decline: declineUserRequest,
+                  )
                 : Loading();
           },
           padding: const EdgeInsets.all(8.0),
