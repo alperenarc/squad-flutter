@@ -17,11 +17,11 @@ abstract class ManagedSquadsListViewModel extends State<ManagedSquadsList> {
     });
   }
 
-  void acceptUserRequest(userName, squadName) async {
-    await acceptUser(userName, squadName);
+  void acceptUserRequest(userUid, squadName) async {
+    await acceptUser(userUid, squadName);
   }
 
-  void declineUserRequest(userName, squadName) async {
-    await declineUser(userName, squadName);
+  void declineUserRequest(userUid, squadName) async {
+    await declineUser(userUid, squadName);
   }
 }

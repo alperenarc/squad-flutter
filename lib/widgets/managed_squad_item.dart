@@ -4,11 +4,15 @@ import '../constants.dart';
 class ManagedSquadItem extends StatelessWidget {
   final Function accept;
   final Function decline;
+  final Function removeSquad;
+  final int index;
   const ManagedSquadItem({
     Key key,
     @required this.myManagedSquads,
     this.accept,
     this.decline,
+    this.index,
+    this.removeSquad,
   }) : super(key: key);
 
   final myManagedSquads;
@@ -18,7 +22,6 @@ class ManagedSquadItem extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 5),
       padding: EdgeInsets.all(10),
-      height: 90,
       decoration: BoxDecoration(
         color: kShadowColor,
         borderRadius: BorderRadius.circular(13),
@@ -71,12 +74,30 @@ class ManagedSquadItem extends StatelessWidget {
           IconButton(
               icon: Icon(Icons.close),
               onPressed: () {
+                final snackBar = SnackBar(
+                  content: Text('Kullanıcı Reddedildi'),
+                  action: SnackBarAction(
+                    label: 'Tamam',
+                    onPressed: () {},
+                  ),
+                );
+                Scaffold.of(context).showSnackBar(snackBar);
+                removeSquad(index);
                 decline(myManagedSquads['userUid'].toString(),
                     myManagedSquads['squadName'].toString());
               }),
           IconButton(
               icon: Icon(Icons.check),
               onPressed: () {
+                final snackBar = SnackBar(
+                  content: Text('Kullanıcı Kabul Edildi'),
+                  action: SnackBarAction(
+                    label: 'Tamam',
+                    onPressed: () {},
+                  ),
+                );
+                Scaffold.of(context).showSnackBar(snackBar);
+                removeSquad(index);
                 accept(myManagedSquads['userUid'].toString(),
                     myManagedSquads['squadName'].toString());
               }),

@@ -15,7 +15,14 @@ class SquadItem extends StatelessWidget {
       // ignore: missing_return
       onTap: () {
         if (mySquads.data['state']) {
-          //Navigate Details Page
+          Navigator.of(context).pushNamed(
+            '/squad_details',
+            arguments: {
+              'squadUid': mySquads.documentID,
+              'squadName': mySquads.data['squadName'],
+              'joinedDate': mySquads.data['joinedDate'],
+            },
+          );
         } else {
           final snackBar = SnackBar(
             content: Text('Ekip yöneticisi tarafından onay bekleniyor.'),
@@ -45,10 +52,6 @@ class SquadItem extends StatelessWidget {
         ),
         child: Row(
           children: <Widget>[
-            // SvgPicture.asset(
-            //   "assets/icons/Meditation_women_small.svg",
-            // ),
-
             mySquads.data['state'] ? Icon(Icons.check) : Icon(Icons.close),
             SizedBox(width: 20),
             Expanded(
@@ -71,4 +74,3 @@ class SquadItem extends StatelessWidget {
     );
   }
 }
-

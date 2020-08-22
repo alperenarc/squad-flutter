@@ -5,11 +5,17 @@ import '../../constants.dart';
 import 'managed_squads_list_view_model.dart';
 
 class ManagedSquadsListView extends ManagedSquadsListViewModel {
-  
+  void removeSquad(index) async {
+    setState(() {
+      managedSquadsRequests.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Row(
           children: <Widget>[
             IconButton(
@@ -49,7 +55,8 @@ class ManagedSquadsListView extends ManagedSquadsListViewModel {
                     myManagedSquads: managedSquadsRequests[index],
                     accept: acceptUserRequest,
                     decline: declineUserRequest,
-                  )
+                    index: index,
+                    removeSquad: removeSquad)
                 : Loading();
           },
           padding: const EdgeInsets.all(8.0),

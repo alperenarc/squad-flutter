@@ -204,6 +204,8 @@ Future<void> acceptUser(userUid, squadName) async {
       .getDocuments()
       .then((querySnapshot) {
     querySnapshot.documents.forEach((result) async {
+      await changeUserAcceptedStateFromUserInfo(
+          userUid, squadName, result.documentID, true);
       await changeUserAcceptedState(result.documentID, userUid, true);
     });
   });
@@ -215,7 +217,31 @@ Future<void> declineUser(userUid, squadName) async {
       .getDocuments()
       .then((querySnapshot) {
     querySnapshot.documents.forEach((result) async {
+      await changeUserAcceptedStateFromUserInfo(
+          userUid, squadName, result.documentID, false);
       await deleteUserFromRequest(result.documentID, userUid);
     });
   });
+}
+
+Future<void> changeUserAcceptedStateFromUserInfo(
+    userUid, squadName, squadUid, state) async {
+  if (state) {
+    await users
+        .document(userUid)
+        .collection('squads')
+        .document(squadUid)
+        .updateData({"state": true}).then((value) {
+      print('Kullanıcı eklendi');
+    });
+  } else {
+    await users
+        .document(userUid)
+        .collection('squads')
+        .document(squadUid)
+        .delete()
+        .then((value) {
+      print('Kullanıcı reddedildi.');
+    });
+  }
 }
