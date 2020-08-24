@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:squad/widgets/activity_button.dart';
+import 'package:squad/widgets/category_card.dart';
 import '../../constants.dart';
 import 'squad_details_list_view_model.dart';
 
@@ -14,47 +16,9 @@ class SquadDetailsListView extends SquadDetailsListViewModel {
 
     return Scaffold(
       appBar: appBar(context),
-      body: Popo(),
+      body: ScrollableScreen(),
     );
   }
-
-  // SingleChildScrollView body() {
-  //   print('asd');
-  //   return SingleChildScrollView(
-  //     child: Column(
-  //       children: <Widget>[
-  //         Text('Alperen'),
-  //         Text('Alperen'),
-  //         Container(
-  //           height: 100,
-  //           child: DefaultTabController(
-  //             length: 2,
-  //             child: Scaffold(
-  //               appBar: TabBar(
-  //                 labelColor: Colors.red,
-  //                 unselectedLabelColor: Colors.blue,
-  //                 indicatorColor: Colors.amberAccent,
-  //                 tabs: [
-  //                   Tab(
-  //                     icon: Icon(Icons.directions_car),
-  //                     child: Text('alperns'),
-  //                   ),
-  //                   Tab(icon: Icon(Icons.directions_transit)),
-  //                 ],
-  //               ),
-  //               body: TabBarView(
-  //                 children: [
-  //                   Icon(Icons.directions_car),
-  //                   Icon(Icons.directions_transit),
-  //                 ],
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 
   AppBar appBar(BuildContext context) {
     return AppBar(
@@ -71,11 +35,11 @@ class SquadDetailsListView extends SquadDetailsListViewModel {
             },
           ),
           Text(
-            "Details",
+            "Detay",
             style: Theme.of(context)
                 .textTheme
                 .headline6
-                .copyWith(fontWeight: FontWeight.w900),
+                .copyWith(fontWeight: FontWeight.w900, color: kTextColor),
           ),
         ],
       ),
@@ -188,12 +152,13 @@ class _MyHomePageState extends State<MyHomePage>
   }
 }
 
-class Popo extends StatefulWidget {
+class ScrollableScreen extends StatefulWidget {
   @override
-  _PopoState createState() => _PopoState();
+  _ScrollableScreenState createState() => _ScrollableScreenState();
 }
 
-class _PopoState extends State<Popo> with SingleTickerProviderStateMixin {
+class _ScrollableScreenState extends State<ScrollableScreen>
+    with SingleTickerProviderStateMixin {
   TabController _controller;
   @override
   void initState() {
@@ -208,88 +173,132 @@ class _PopoState extends State<Popo> with SingleTickerProviderStateMixin {
       body: SafeArea(
         child: CustomScrollView(
           slivers: <Widget>[
-            // SliverAppBar(
-            //   backgroundColor: Colors.grey[100],
-            //   title: Container(
-            //     color: Colors.grey[100],
-            //     height: 500,
-            //     width: MediaQuery.of(context).size.width,
-            //     child: Container(
-            //       width:500,
-            //       child: Center(
-            //         child: Card(
-            //           child: Text('asd \nAlperemn \nAlperemn \nAlperemn'),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // SliverGrid(
-            //   gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-            //     maxCrossAxisExtent: 200.0,
-            //     mainAxisSpacing: 10.0,
-            //     crossAxisSpacing: 10.0,
-            //     childAspectRatio: 4.0,
-            //   ),
-            //   delegate: SliverChildBuilderDelegate(
-            //     (BuildContext context, int index) {
-            //       return Container(
-            //         alignment: Alignment.center,
-            //         color: Colors.red,
-            //         child: Text('grid item $index'),
-            //       );
-            //     },
-            //     childCount: 1,
-            //   ),
-            // ),
             SliverToBoxAdapter(
               child: Container(
-                child: Column(children: <Widget>[
-                  Text('asd'),
-                  Text('adad')
-                ],),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 20.0, horizontal: 8.0),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Text('Bizim Ekip',
+                              style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.w900,
+                                  color: kTextColor)),
+                          leaveSquadButton(),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            CircleAvatar(
+                              radius: 20.0,
+                              backgroundImage: NetworkImage(
+                                  'https://lh3.googleusercontent.com/-8AfhWpBMmjQ/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucnFDgk77iFoIF2QTNjWMJWdPJsF5w/s96-c/photo.jpg'),
+                              backgroundColor: Colors.transparent,
+                            ),
+                            SizedBox(width: 15),
+                            Text(
+                              '17.02.2020 tarihinde \nAlperen Arıcı tarafından kuruldu.',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle2
+                                  .copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: kTextColor),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
             SliverAppBar(
               pinned: true,
               automaticallyImplyLeading: false,
-              backgroundColor: Colors.black,
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Icon(Icons.dashboard),
-                  Icon(Icons.tv),
-                  Icon(Icons.person),
-                ],
-              ),
-              bottom: TabBar(
-                labelColor: kTextColor,
-                unselectedLabelColor: kBlueColor,
-                indicatorColor: kTextColor,
-                controller: _controller,
-                tabs: [
-                  new Tab(
-                    // icon: const Icon(Icons.calendar_today),
-                    text: 'Etkinlikler',
-                  ),
-                  new Tab(
-                    // icon: const Icon(Icons.people_outline),
-                    text: 'Location',
-                  ),
-                ],
+              backgroundColor: kBlueLightColor,
+              title: Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(Icons.calendar_today, color: kTextColor),
+                    SizedBox(width: 20),
+                    Text(
+                      'Etkinlikler',
+                      style: TextStyle(color: kTextColor),
+                    )
+                  ],
+                ),
               ),
             ),
+            // SliverToBoxAdapter(
+            //   child: Container(
+            //     height:500,
+            //     child: GridView.count(
+            //       // Create a grid with 2 columns. If you change the scrollDirection to
+            //       // horizontal, this produces 2 rows.
+            //       crossAxisCount: 2,
+            //       // Generate 100 widgets that display their index in the List.
+            //       children: List.generate(100, (index) {
+            //         return Center(
+            //           child: Text(
+            //             'Item $index',
+            //             style: Theme.of(context).textTheme.headline5,
+            //           ),
+            //         );
+            //       }),
+            //     ),
+            //   ),
+            // ),
+            // SliverAnimatedList(
+            //   itemBuilder: (_, index, ___) {
+            //     return ListTile(
+            //       title: Text(index.toString()),
 
-            SliverAnimatedList(
-              itemBuilder: (_, index, ___) {
-                return ListTile(
-                  title: Text(index.toString()),
-                );
-              },
-              initialItemCount: 15,
-            ),
+            //     );
+            //   },
+            //   initialItemCount: 15,
+            // ),
+            SliverGrid(
+              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 200.0,
+              ),
+              delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) {
+                  return ActivityButton();
+                },
+                childCount: 20,
+              ),
+            )
           ],
+        ),
+      ),
+    );
+  }
+
+  InkWell leaveSquadButton() {
+    return InkWell(
+      onTap: () {},
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        decoration: BoxDecoration(
+          color: Colors.red,
+          borderRadius: BorderRadius.circular(29.5),
+        ),
+        child: Align(
+          alignment: Alignment.center,
+          child: Text(
+            "Gruptan Ayrıl",
+            style: TextStyle(fontSize: 15, color: Colors.white),
+          ),
         ),
       ),
     );
